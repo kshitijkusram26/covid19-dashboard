@@ -8,7 +8,7 @@ import seaborn as sns
 
 
 
-data= pd.read_csv("data\\cleaned_owid-covid-data.csv")
+data= pd.read_csv("data/cleaned_owid-covid-data.csv")
 df=pd.DataFrame(data)
 df['date']=pd.to_datetime(df['date'])
 st.title(" COVID 19 Dashboard (Matplotlib & Seaborn)")
