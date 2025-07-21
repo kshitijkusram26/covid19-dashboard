@@ -71,16 +71,32 @@ with tab2:
         st.plotly_chart(pie_fig)
 
     with col2:
-        st.subheader("Stacked Bar - New Cases & Deaths")
+        st.subheader("Stacked Bar - New Cases & Deaths (with % Labels)")
         stacked_df = filtered_df.groupby('location')[['new_cases', 'new_deaths']].sum().reset_index()
+        stacked_df['total'] = stacked_df['new_cases'] + stacked_df['new_deaths']
+        stacked_df['new_cases_pct'] = (stacked_df['new_cases'] / stacked_df['total']) * 100
+        stacked_df['new_deaths_pct'] = (stacked_df['new_deaths'] / stacked_df['total']) * 100
+        percent_df = stacked_df.melt(id_vars='location', 
+                                     value_vars=['new_cases_pct', 'new_deaths_pct'], 
+                                     var_name='Type', 
+                                     value_name='Percentage')
+
+        percent_df['Type'] = percent_df['Type'].replace({
+            'new_cases_pct': 'New Cases',
+            'new_deaths_pct': 'New Deaths'
+         })
         stack_fig = px.bar(
-        stacked_df,
-        x='location',
-        y=['new_cases', 'new_deaths'],
-        title='New Cases vs New Deaths by Country',
-        barmode='stack'
-    )
-    st.plotly_chart(stack_fig, use_container_width=True)
+            percent_df,
+            x='location',
+            y='Percentage',
+            color='Type',
+            text=percent_df['Percentage'].round(1).astype(str) + '%',
+            title='Percentage Share of New Cases & Deaths per Country',
+            barmode='stack'
+        )
+
+        stack_fig.update_traces(textposition='inside')
+        st.plotly_chart(stack_fig, use_container_width=True)
 
 
     st.subheader("Heatmap")
