@@ -91,7 +91,7 @@ with tab2:
 
 with tab3:
     st.subheader("Filtered Data Summary")
-    st.dataframe(filtered_df[['date','location','toatl_cases','new_cases','new_deaths']].sort_values(by='date'))
+    st.dataframe(filtered_df[['date','location','total_cases','new_cases','new_deaths']].sort_values(by='date'))
 
 st.markdown("-------------")
 st.markdown(
