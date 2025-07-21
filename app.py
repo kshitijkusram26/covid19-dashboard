@@ -71,10 +71,17 @@ with tab2:
         st.plotly_chart(pie_fig)
 
     with col2:
-        st.subheader("Stacked Bar- New cases & Deaths")
-        stacked_df=filtered_df.groupby(['location']).agg([{'new_cases':'sum','new_deaths':'sum'}]).reset_index()
-        stack_fig=px.bar(stacked_df,x='location',y=['new_cases','new_deaths'],barmode='stack',template='plotly_dark')
-        st.plotly_chart(stack_fig)
+        st.subheader("Stacked Bar - New Cases & Deaths")
+        stacked_df = filtered_df.groupby('location')[['new_cases', 'new_deaths']].sum().reset_index()
+        stack_fig = px.bar(
+        stacked_df,
+        x='location',
+        y=['new_cases', 'new_deaths'],
+        title='New Cases vs New Deaths by Country',
+        barmode='stack'
+    )
+    st.plotly_chart(stack_fig, use_container_width=True)
+
 
     st.subheader("Heatmap")
     corr=filtered_df[['total_cases','total_deaths','new_cases','new_deaths']].corr()
