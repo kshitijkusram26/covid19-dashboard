@@ -87,7 +87,7 @@ with tab2:
     corr=filtered_df[['total_cases','total_deaths','new_cases','new_deaths']].corr()
     fig,ax=plt.subplots(figsize=(6,4))
     sns.heatmap(corr,annot=True,cmap='rocket',fmt='.2f',ax=ax)
-    st.plotly(fig)
+    st.pyplot(fig)
 
 with tab3:
     st.subheader("Filtered Data Summary")
