@@ -20,7 +20,12 @@ def load_data():
 df=load_data()
 
 st.sidebar.title("Filter Data")
-countries=st.sidebar.multiselect("Select Countries: ",sorted(df['location'].unique()),default=['India','United States','Brazil'])
+countries = st.sidebar.multiselect(
+    "Select Countries:",
+    sorted(df['location'].dropna().astype(str).unique()),
+    default=['India','United States','Brazil']
+)
+
 start_date=st.sidebar.date_input("Start Date",df['date'].min())
 end_date=st.sidebar.date_input("End Date",df['date'].max())
 
